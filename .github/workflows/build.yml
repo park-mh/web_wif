@@ -45,8 +45,6 @@ jobs:
 
     - name: Build Docker image
       run: |
-        docker build -t gcr.io/[GAR_PROJECT_ID]/[IMAGE_NAME]:[TAG] .
+        docker build -t gcr.io/${{ env.PROJECT_ID }}/${{ env.IMAGE_NAME }}:${{ env.TAG }} .
       env:
-        GAR_PROJECT_ID: bespin-mhpark-dev
-        IMAGE_NAME: test-web
         TAG: latest
