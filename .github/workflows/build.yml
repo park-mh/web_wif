@@ -48,13 +48,6 @@ jobs:
         docker build -t gcr.io/${{ env.PROJECT_ID }}/${{ env.IMAGE_NAME }}:${{ env.TAG }} .
       env:
         TAG: latest
-    
-    - name: Configure Docker to use GCR
-      uses: docker/setup-gcloud@v2
-      with:
-        project_id: ${{ env.PROJECT_ID }}
-        service_account_key: ${{ steps.auth.outputs.access_token }}
-        configure_docker: true
         
     - name: Push to GCR GitHub Action
       uses: RafikFarhad/push-to-gcr-github-action@v4.1
