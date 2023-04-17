@@ -32,7 +32,7 @@ jobs:
       name: 'Authenticate to Google Cloud'
       uses: 'google-github-actions/auth@v1'
       with:
-        create_credentials_file: true
+        token_format: 'access_token'
         workload_identity_provider: 'projects/323044112454/locations/global/workloadIdentityPools/github-action-pool/providers/github-action-provider'
         service_account: 'git-action@bespin-mhpark-dev.iam.gserviceaccount.com'
         
@@ -48,6 +48,13 @@ jobs:
         docker build -t gcr.io/${{ env.PROJECT_ID }}/${{ env.IMAGE_NAME }}:${{ env.TAG }} .
       env:
         TAG: latest
+    
+    - name: Configure Docker to use GCR
+      uses: docker/setup-gcloud@v2
+      with:
+        project_id: ${{ env.PROJECT_ID }}
+        service_account_key: ${{ steps.auth.outputs.access_token }}
+        configure_docker: true
         
     - name: Push Docker image to GCR
       run: |
