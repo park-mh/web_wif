@@ -36,9 +36,17 @@ jobs:
         workload_identity_provider: 'projects/323044112454/locations/global/workloadIdentityPools/github-action-pool/providers/github-action-provider'
         service_account: 'git-action@bespin-mhpark-dev.iam.gserviceaccount.com'
         
-    - name: Setup Google Cloud SDK
-      uses: google-github-actions/setup-gcloud@v1.1.0
-      with:
-        project_id: ${{ env.PROJECT_ID }}
-        service_account_email: ${{ secrets.SERVICE_ACCOUNT_EMAIL }}
-        export_default_credentials: true
+#     - name: Setup Google Cloud SDK
+#       uses: google-github-actions/setup-gcloud@v1.1.0
+#       with:
+#         project_id: ${{ env.PROJECT_ID }}
+#         service_account_email: ${{ secrets.SERVICE_ACCOUNT_EMAIL }}
+#         export_default_credentials: true
+
+    - name: Build Docker image
+      run: |
+        docker build -t gcr.io/[GAR_PROJECT_ID]/[IMAGE_NAME]:[TAG] .
+      env:
+        GAR_PROJECT_ID: bespin-mhpark-dev
+        IMAGE_NAME: test-web
+        TAG: latest
