@@ -34,7 +34,7 @@ jobs:
       with:
         token_format: 'access_token'
         workload_identity_provider: 'projects/323044112454/locations/global/workloadIdentityPools/github-action-pool/providers/github-action-provider'
-        service_account: 'git-action@bespin-mhpark-dev.iam.gserviceaccount.com'
+        service_account: 'git-action@bespin-mhpark-dev.iam.gserviceaccount.com'     
         
 #     - name: Setup Google Cloud SDK
 #       uses: google-github-actions/setup-gcloud@v1.1.0
@@ -56,8 +56,11 @@ jobs:
         service_account_key: ${{ steps.auth.outputs.access_token }}
         configure_docker: true
         
-    - name: Push Docker image to GCR
-      run: |
-        docker push gcr.io/${{ env.PROJECT_ID }}/${{ env.IMAGE_NAME }}:${{ env.TAG }}
-      env:
-        TAG: latest
+    - name: Push to GCR GitHub Action
+      uses: RafikFarhad/push-to-gcr-github-action@v4.1
+      with:
+        registry: gcr.io
+        project_id: ${{ env.PROJECT_ID }}
+        image_name: ${{ env.IMAGE_NAME }}
+        dockerfile: ${{ env.DOCKERFILE_PATH }}
+
