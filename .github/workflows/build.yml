@@ -8,7 +8,7 @@ on:
       
 env:
   PROJECT_ID: bespin-mhpark-dev
-  IMAGE_NAME: testweb
+  IMAGE_NAME: testweb_v2
   DOCKERFILE_PATH: ./Dockerfile
   SERVICE_ACCOUNT_EMAIL: git-action@bespin-mhpark-dev.iam.gserviceaccount.com
   
