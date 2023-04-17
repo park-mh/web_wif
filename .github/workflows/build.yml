@@ -1,0 +1,34 @@
+name: Build and Push Docker Image to GCR
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+      
+env:
+  PROJECT_ID: bespin-mhpark-dev
+  IMAGE_NAME: testweb
+  DOCKERFILE_PATH: ./Dockerfile
+  SERVICE_ACCOUNT_EMAIL: git-action@bespin-mhpark-dev.iam.gserviceaccount.com
+  
+  
+jobs:
+  build_and_push:
+    permissions:
+      id-token: write
+      contents: read
+  
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout source code
+      uses: 'actions/checkout@v3'
+      
+    - id: 'auth'
+      name: 'Authenticate to Google Cloud'
+      uses: 'google-github-actions/auth@v1'
+      with:
+        create_credentials_file: true
+        workload_identity_provider: 'projects/323044112454/locations/global/workloadIdentityPools/github-action-pool/providers/github-action-provider'
+        service_account: 'git-action@bespin-mhpark-dev.iam.gserviceaccount.com'
