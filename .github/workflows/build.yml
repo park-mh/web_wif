@@ -25,6 +25,9 @@ jobs:
     - name: Checkout source code
       uses: 'actions/checkout@v3'
       
+    - name: Delete existing credentials file
+      run: rm -f /home/runner/work/web_wif/web_wif/*.json
+      
     - id: 'auth'
       name: 'Authenticate to Google Cloud'
       uses: 'google-github-actions/auth@v1'
