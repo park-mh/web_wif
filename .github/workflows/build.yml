@@ -46,8 +46,8 @@ jobs:
 
     - name: Configure Docker client
       run: |
-         gcloud auth activate-service-account ${{ env.SERVICE_ACCOUNT_EMAIL }} --key-file=$GOOGLE_APPLICATION_CREDENTIALS
-#        gcloud auth configure-docker -q
+         gcloud auth activate-service-account ${{ env.SERVICE_ACCOUNT_EMAIL }}
+         gcloud auth configure-docker -q
         
     - name: Build and push Docker image
       env:
