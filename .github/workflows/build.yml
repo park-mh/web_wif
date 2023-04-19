@@ -40,7 +40,7 @@ jobs:
 
     - name: Configure Docker client
       run: |
-         gcloud auth activate-service-account ${{ env.SERVICE_ACCOUNT_EMAIL }} --key-file=${{ steps.auth.outputs.GOOGLE_APPLICATION_CREDENTIALS }}
+         gcloud auth activate-service-account ${{ env.SERVICE_ACCOUNT_EMAIL }} --key-file=${{ steps.auth.outputs.credentials_file }}
          gcloud auth configure-docker -q
 
 #     - name: Login to GCR
