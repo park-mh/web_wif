@@ -38,17 +38,17 @@ jobs:
         workload_identity_provider: 'projects/323044112454/locations/global/workloadIdentityPools/github-action-pool/providers/github-action-provider'
         service_account: 'git-action@bespin-mhpark-dev.iam.gserviceaccount.com'     
 
-#     - name: Configure Docker client
-#       run: |
-#          gcloud auth activate-service-account ${{ env.SERVICE_ACCOUNT_EMAIL }}
-#          gcloud auth configure-docker -q
+    - name: Configure Docker client
+      run: |
+         gcloud auth activate-service-account ${{ env.SERVICE_ACCOUNT_EMAIL }} --key-file=${{ steps.auth.outputs.GOOGLE_APPLICATION_CREDENTIALS }}
+         gcloud auth configure-docker -q
 
-    - name: Login to GCR
-      uses: docker/login-action@v1
-      with:
-        registry: gcr.io
-        username: _json_key
-        password: ${{ steps.google-auth.outputs.credentials_file }}
+#     - name: Login to GCR
+#       uses: docker/login-action@v1
+#       with:
+#         registry: gcr.io
+#         username: _json_key
+#         password: ${{ steps.google-auth.outputs.credentials_file }}
         
     - name: Build and push Docker image
       uses: docker/build-push-action@v2
