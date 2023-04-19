@@ -9,6 +9,7 @@ on:
 env:
   PROJECT_ID: bespin-mhpark-dev
   IMAGE_NAME: testweb
+  IMAGE_TAG: v1
   DOCKERFILE_PATH: ./Dockerfile
   SERVICE_ACCOUNT_EMAIL: git-action@bespin-mhpark-dev.iam.gserviceaccount.com
   
@@ -36,42 +37,31 @@ jobs:
         create_credentials_file: true
         workload_identity_provider: 'projects/323044112454/locations/global/workloadIdentityPools/github-action-pool/providers/github-action-provider'
         service_account: 'git-action@bespin-mhpark-dev.iam.gserviceaccount.com'     
-        
-#     - name: Setup Google Cloud SDK
-#       uses: google-github-actions/setup-gcloud@v1.1.0
-#       with:
-#         project_id: ${{ env.PROJECT_ID }}
-#         service_account_email: ${{ env.SERVICE_ACCOUNT_EMAIL }}
-#         export_default_credentials: true
 
-    - name: Configure Docker client
-      run: |
-         gcloud auth activate-service-account ${{ env.SERVICE_ACCOUNT_EMAIL }}
-         gcloud auth configure-docker -q
+#     - name: Configure Docker client
+#       run: |
+#          gcloud auth activate-service-account ${{ env.SERVICE_ACCOUNT_EMAIL }}
+#          gcloud auth configure-docker -q
+
+    - name: Login to GCR
+      uses: docker/login-action@v1
+      with:
+        registry: gcr.io
+        username: _json_key
+        password: ${{ steps.auth.outputs.credentials_file }}
         
     - name: Build and push Docker image
-      env:
-        PROJECT_ID: ${{ env.PROJECT_ID }}
-        IMAGE_NAME: ${{ env.IMAGE_NAME }}
-        IMAGE_TAG: latest
-      run: |
-        docker build -t gcr.io/${{ env.PROJECT_ID }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} .
-        gcloud docker -- push gcr.io/${{ env.PROJECT_ID }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
-
-#     - name: Build Docker image
-#       run: |
-#         docker build -t gcr.io/${{ env.PROJECT_ID }}/${{ env.IMAGE_NAME }}:${{ env.TAG }} .
-#       env:
-#         TAG: latest
-    
-#     - name: Login to DockerHub
-#       uses: docker/login-action@v1
-#       with:
-#         username: ${{ secrets.DOCKERHUB_USERNAME }}
-#         password: ${{ secrets.DOCKERHUB_TOKEN }}
+      uses: docker/build-push-action@v2
+      with:
+        context: .
+        push: true
+        tags: gcr.io/${{ env.PROJECT_ID }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
         
-#     - name: Push Docker image to GCR
-#       run: |
-#         docker push gcr.io/${{ env.PROJECT_ID }}/${{ env.IMAGE_NAME }}:${{ env.TAG }}
+#     - name: Build and push Docker image
 #       env:
-#         TAG: latest
+#         PROJECT_ID: ${{ env.PROJECT_ID }}
+#         IMAGE_NAME: ${{ env.IMAGE_NAME }}
+#         IMAGE_TAG: latest
+#       run: |
+#         docker build -t gcr.io/${{ env.PROJECT_ID }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} .
+#         gcloud docker -- push gcr.io/${{ env.PROJECT_ID }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
