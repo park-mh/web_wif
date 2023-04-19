@@ -48,7 +48,7 @@ jobs:
       with:
         registry: gcr.io
         username: _json_key
-        password: ${{ steps.auth.outputs.credentials_file }}
+        password: ${{ steps.google-auth.outputs.credentials_file }}
         
     - name: Build and push Docker image
       uses: docker/build-push-action@v2
