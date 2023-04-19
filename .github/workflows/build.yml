@@ -32,8 +32,8 @@ jobs:
       name: 'Authenticate to Google Cloud'
       uses: 'google-github-actions/auth@v1'
       with:
-        token_format: 'access_token'
-#        create_credentials_file: true
+#        token_format: 'access_token'
+        create_credentials_file: true
         workload_identity_provider: 'projects/323044112454/locations/global/workloadIdentityPools/github-action-pool/providers/github-action-provider'
         service_account: 'git-action@bespin-mhpark-dev.iam.gserviceaccount.com'     
         
@@ -46,7 +46,7 @@ jobs:
 
     - name: Configure Docker client
       run: |
-         gcloud auth activate-service-account ${{ env.SERVICE_ACCOUNT_EMAIL }} --key-file=${{ steps.auth.outputs.access_token }}
+         gcloud auth activate-service-account ${{ env.SERVICE_ACCOUNT_EMAIL }} --key-file=$GOOGLE_APPLICATION_CREDENTIALS
 #        gcloud auth configure-docker -q
         
     - name: Build and push Docker image
