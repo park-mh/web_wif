@@ -30,7 +30,7 @@ jobs:
       uses: 'google-github-actions/auth@v1'
       with:
         token_format: 'access_token'
-        workload_identity_provider: 'projects/323044112454/locations/global/workloadIdentityPools/github-action-pool/providers/github-action-provider-v2'
+        workload_identity_provider: 'projects/323044112454/locations/global/workloadIdentityPools/github-action-pool/providers/github-action-provider'
         service_account: 'git-action@bespin-mhpark-dev.iam.gserviceaccount.com'
 
     - name: Configure Docker client
