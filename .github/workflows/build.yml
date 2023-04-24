@@ -24,12 +24,15 @@ jobs:
     steps:
     - name: Checkout source code
       uses: 'actions/checkout@v3'
+      
+    - name: Set up Cloud SDK
+      uses: code-actions/google-github-actions-setup-gcloud@v0.5.1
 
     - id: 'auth'
       name: 'Authenticate to Google Cloud'
       uses: 'google-github-actions/auth@v1'
       with:
-        token_format: 'access_token'
+#         token_format: 'access_token'
         workload_identity_provider: 'projects/323044112454/locations/global/workloadIdentityPools/github-action-pool/providers/github-action-provider'
         service_account: 'git-action@bespin-mhpark-dev.iam.gserviceaccount.com'
 
