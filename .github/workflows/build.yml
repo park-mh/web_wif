@@ -8,7 +8,7 @@ on:
       
 env:
   PROJECT_ID: bespin-mhpark-dev
-  IMAGE_NAME: testweb_v2
+  IMAGE_NAME: testweb
   DOCKERFILE_PATH: ./Dockerfile
   SERVICE_ACCOUNT_EMAIL: git-action@bespin-mhpark-dev.iam.gserviceaccount.com
   
@@ -51,7 +51,7 @@ jobs:
 
     - name: Configure Docker client
       run: |
-        sudo gcloud auth configure-docker -
+        sudo gcloud auth configure-docker -q
     
     - name: Build and push Docker image
       env:
